@@ -204,12 +204,22 @@ function consultar(){
       var b=document.createElement("b");b.textContent=money(f.valor,f.moneda);
       var sp=document.createElement("div");sp.className="small";sp.textContent="Factura "+f.numero+(f.vence?" · vence "+f.vence:"");
       t.appendChild(b);t.appendChild(sp);
-      var a=document.createElement("a");a.className="btn pri";a.textContent="Pagar";a.target="_blank";a.rel="noopener";
-      a.href=(CONFIG.USE_ZOHO_LINK&&f.url)?f.url:CONFIG.PAYMENT_URL+"?factura="+encodeURIComponent(f.numero)+"&valor="+encodeURIComponent(f.valor);
+      var a=document.createElement("button");a.type="button";a.className="btn pri";a.textContent="Pagar";
+      a.onclick=function(){pagar(ced,f.numero,a)};
       row.appendChild(t);row.appendChild(a);nList.appendChild(row);
     });
   })
   .catch(function(){nGo.disabled=false;nMsg.textContent="No pudimos consultar en este momento. Escríbenos por WhatsApp."});
+}
+function pagar(ced,num,btn){
+  btn.disabled=true;btn.textContent="Un momento…";
+  fetch("/.netlify/functions/crear-pago",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({cedula:ced,factura:num})})
+  .then(function(r){return r.json()})
+  .then(function(d){
+    if(d.ok&&d.url){location.href=d.url;return}
+    btn.disabled=false;btn.textContent="Pagar";nMsg.textContent=d.mensaje||"No pudimos iniciar el pago.";
+  })
+  .catch(function(){btn.disabled=false;btn.textContent="Pagar";nMsg.textContent="No pudimos iniciar el pago. Escríbenos por WhatsApp."});
 }
 nGo.onclick=consultar;
 document.getElementById("ced").addEventListener("keydown",function(e){if(e.key==="Enter")consultar()});
@@ -230,6 +240,9 @@ var wa="https://wa.me/"+CONFIG.WHATSAPP+"?text="+encodeURIComponent("Hola, quier
 ["waBtn","waFloat"].forEach(function(id){document.getElementById(id).href=wa});
 document.getElementById("telBtn").href="tel:"+CONFIG.PHONE;
 document.getElementById("yr").textContent=new Date().getFullYear();
+var pg=new URLSearchParams(location.search).get("pago");
+if(pg){var msgs={aprobado:"¡Pago recibido! Gracias. Lo reflejaremos en tu factura en breve.",rechazado:"El pago no se completó. Puedes intentarlo de nuevo.",pendiente:"Tu pago está en proceso. Te confirmaremos cuando se apruebe."};
+if(msgs[pg])setTimeout(function(){alert(msgs[pg])},300)}
 render("all");
 </script>
 </body>
