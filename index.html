@@ -33,6 +33,24 @@ nav a:hover{background:rgba(255,255,255,.1);color:#fff}
 .btn{display:inline-block;border:0;cursor:pointer;font:600 16px "Source Sans 3",sans-serif;padding:13px 22px;border-radius:10px;text-decoration:none;background:#fff;color:#0f1b2d}
 .btn.pri{background:var(--net);color:#fff}
 .btn.ghost{background:transparent;color:inherit;border:1.5px solid currentColor;margin-left:8px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center}
+.tc{width:100%;max-width:340px;margin-inline:auto;display:block;overflow:visible}
+.tc .glow{fill:#2b4fd8;opacity:.22;transform-box:fill-box;transform-origin:center;animation:gl 3s ease-in-out infinite}
+@keyframes gl{50%{transform:scale(1.08);opacity:.32}}
+.tc .wave{transform-origin:226px 172px;animation:wv .7s ease-in-out infinite alternate}
+@keyframes wv{from{transform:rotate(-18deg)}to{transform:rotate(18deg)}}
+.tc .eye{transform-box:fill-box;transform-origin:center;animation:ey 4s infinite}
+@keyframes ey{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+.tc .bub{transform-box:fill-box;transform-origin:20% 100%;animation:bb 3.2s ease-in-out infinite}
+@keyframes bb{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.tc .fl{animation:fl 3s ease-in-out infinite alternate}
+.tc .fl2{animation:fl 3.6s ease-in-out infinite alternate-reverse}
+@keyframes fl{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+.tc .gear{transform-box:fill-box;transform-origin:center;animation:sp 6s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.tc .bob{animation:fl 2.4s ease-in-out infinite alternate}
+@media (max-width:760px){.hero-grid{grid-template-columns:1fr}.tc{max-width:260px}}
+@media (prefers-reduced-motion:reduce){.tc *{animation:none!important}}
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
 .chip{border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:15px}
 section{padding:60px 20px}
@@ -105,11 +123,35 @@ dialog::backdrop{background:rgba(5,10,20,.6)}
 </div></header>
 
 <main>
-<section class="hero" id="inicio"><div class="wrap">
+<section class="hero" id="inicio"><div class="wrap hero-grid">
+  <div class="hero-text">
   <h1>Tecnología, internet y perfumes en un solo lugar</h1>
   <p>Reparamos tu celular, tablet o computador, instalamos internet en tu hogar y tenemos perfumería para regalar o para ti. Elige, paga en línea y te atendemos.</p>
   <a class="btn" href="#servicios">Ver servicios y precios</a><a class="btn ghost" href="#contacto">Hablar con nosotros</a>
   <div class="chips"><span class="chip">Diagnóstico claro</span><span class="chip">Pago seguro en línea</span><span class="chip">Atención por WhatsApp</span></div>
+  </div>
+  <svg class="tc" viewBox="0 0 300 330" role="img" aria-label="Un técnico te da la bienvenida">
+    <circle class="glow" cx="150" cy="180" r="120"/>
+    <g class="fl2" fill="none" stroke="#ffc21a" stroke-width="4" stroke-linecap="round"><path d="M28 120 A22 22 0 0 1 50 98"/><path d="M28 136 A38 38 0 0 1 64 98" opacity=".6"/><circle cx="30" cy="140" r="3" fill="#ffc21a" stroke="none"/></g>
+    <g class="fl"><circle class="gear" cx="262" cy="250" r="14" fill="none" stroke="#14b8c4" stroke-width="7" stroke-dasharray="5 4"/><circle cx="262" cy="250" r="5" fill="#14b8c4"/></g>
+    <g class="bob"><rect x="14" y="215" width="26" height="44" rx="5" fill="none" stroke="#c8d0de" stroke-width="3"/><circle cx="27" cy="252" r="2" fill="#c8d0de"/></g>
+    <rect x="116" y="262" width="29" height="52" rx="6" fill="#1c2a4a"/><rect x="155" y="262" width="29" height="52" rx="6" fill="#1c2a4a"/>
+    <rect x="110" y="306" width="38" height="12" rx="6" fill="#0a0f18"/><rect x="152" y="306" width="38" height="12" rx="6" fill="#0a0f18"/>
+    <rect x="103" y="168" width="94" height="104" rx="20" fill="#2b4fd8"/>
+    <rect x="103" y="250" width="94" height="14" fill="#1c2a4a"/><rect x="143" y="248" width="14" height="18" rx="3" fill="#ffc21a"/>
+    <circle cx="170" cy="198" r="9" fill="#ffc21a"/><path d="M166 198 H174 M170 194 V202" stroke="#2b4fd8" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="108" y1="186" x2="84" y2="238" stroke="#2b4fd8" stroke-width="17" stroke-linecap="round"/>
+    <circle cx="83" cy="243" r="10" fill="#f2c9a0"/>
+    <path d="M70 252 L62 276 M62 276 h-5 M62 276 h9" stroke="#9aa5b8" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <rect x="137" y="150" width="26" height="22" fill="#f2c9a0"/>
+    <circle cx="150" cy="128" r="34" fill="#f2c9a0"/>
+    <path d="M114 124 A36 36 0 0 1 186 124 Z" fill="#ffc21a"/><rect x="106" y="120" width="88" height="9" rx="4.5" fill="#ffc21a"/><rect x="144" y="86" width="12" height="12" rx="3" fill="#e0a800"/>
+    <ellipse class="eye" cx="138" cy="138" rx="3.4" ry="4" fill="#1a2233"/><ellipse class="eye" cx="162" cy="138" rx="3.4" ry="4" fill="#1a2233"/>
+    <path d="M138 150 Q150 162 162 150" fill="none" stroke="#1a2233" stroke-width="3" stroke-linecap="round"/>
+    <path d="M192 186 L226 172" stroke="#2b4fd8" stroke-width="17" stroke-linecap="round"/>
+    <g class="wave"><line x1="226" y1="172" x2="244" y2="126" stroke="#2b4fd8" stroke-width="16" stroke-linecap="round"/><circle cx="246" cy="118" r="11" fill="#f2c9a0"/></g>
+    <g class="bub"><rect x="168" y="18" width="122" height="46" rx="14" fill="#fff"/><path d="M190 62 L196 80 L210 62 Z" fill="#fff"/><text x="229" y="48" text-anchor="middle" font-family="Sora,Arial,sans-serif" font-size="17" font-weight="700" fill="#0f1b2d">¡Bienvenido!</text></g>
+  </svg>
 </div></section>
 
 <section id="servicios"><div class="wrap">
