@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tu Negocio – Soporte técnico, internet y perfumería</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7f9;--surface:#fff;--ink:#101828;--muted:#566074;--line:#dde1e8;--tech:#0b6e78;--net:#2b4fd8;--perf:#8a2f64;--hero:#0f1b2d;--hero-ink:#f3f5f8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d121b;--surface:#161d29;--ink:#eef1f6;--muted:#9aa5b8;--line:#263044;--tech:#4fc3cf;--net:#8aa2ff;--perf:#e58fc0;--hero:#0a0f18;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d121b;--surface:#161d29;--ink:#eef1f6;--muted:#9aa5b8;--line:#263044;--tech:#4fc3cf;--net:#8aa2ff;--perf:#e58fc0;--hero:#0a0f18;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3",system-ui,sans-serif;font-size:17px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hero);z-index:30}
+h1,h2,h3{font-family:Sora,system-ui,sans-serif;line-height:1.15;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--net);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--hero);color:var(--hero-ink)}
+.bar{max-width:1040px;margin:auto;display:flex;align-items:center;gap:16px;padding:12px 20px}
+.logo{font-family:Sora,sans-serif;font-weight:800;text-decoration:none;white-space:nowrap}
+nav{display:flex;gap:4px;overflow-x:auto;margin-left:auto;scrollbar-width:none}
+nav a{padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;white-space:nowrap;color:#c8d0de}
+nav a:hover{background:rgba(255,255,255,.1);color:#fff}
+.hero{background:var(--hero);color:var(--hero-ink);padding:56px 20px 72px}
+.wrap{max-width:1040px;margin:auto}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:800;max-width:15ch}
+.hero p{max-width:52ch;color:#c8d0de;font-size:1.1rem;margin:18px 0 28px}
+.btn{display:inline-block;border:0;cursor:pointer;font:600 16px "Source Sans 3",sans-serif;padding:13px 22px;border-radius:10px;text-decoration:none;background:#fff;color:#0f1b2d}
+.btn.pri{background:var(--net);color:#fff}
+.btn.ghost{background:transparent;color:inherit;border:1.5px solid currentColor;margin-left:8px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
+.chip{border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:15px}
+section{padding:60px 20px}
+section h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:700;margin-bottom:8px}
+.lead{color:var(--muted);margin:0 0 28px;max-width:56ch}
+.tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:24px;padding-bottom:4px}
+.tab{flex:none;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 16px;border-radius:999px;font:600 15px "Source Sans 3",sans-serif;cursor:pointer}
+.tab[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:8px}
+.card[data-cat="tech"]{--c:var(--tech)}.card[data-cat="net"]{--c:var(--net)}.card[data-cat="perf"]{--c:var(--perf)}
+.card h3{font-size:1.1rem}
+.card p{margin:0;color:var(--muted);font-size:15.5px;flex:1}
+.price{font-family:Sora,sans-serif;font-weight:700;font-size:1.15rem}
+.card .btn{background:var(--c);color:#fff;text-align:center;margin-top:6px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:0;margin:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;padding-left:46px;position:relative}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:700 15px Sora,sans-serif}
+.steps b{display:block}
+.contact{background:var(--hero);color:var(--hero-ink)}
+.contact .lead{color:#c8d0de}
+.cbox{display:flex;flex-wrap:wrap;gap:12px}
+footer{padding:24px 20px;text-align:center;color:var(--muted);font-size:14px}
+.wa{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:25;background:#1fa855;color:#fff;text-decoration:none;font-weight:600;padding:13px 18px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+dialog{border:0;border-radius:16px;padding:0;width:min(440px,92vw);background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(5,10,20,.6)}
+.m{padding:24px;display:flex;flex-direction:column;gap:14px}
+.m h3{font-size:1.3rem}
+.row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-block:1px solid var(--line)}
+.m label{font-weight:600;font-size:15px;display:block;margin-bottom:4px}
+.m input{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:8px;font:inherit;background:var(--bg);color:var(--ink)}
+.m .btn{text-align:center}
+.small{font-size:13.5px;color:var(--muted);margin:0}
+.pay{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--net);border-radius:12px;padding:16px 20px;margin-bottom:24px}
+.pay b{font-family:Sora,sans-serif;display:block}
+.pay span{color:var(--muted);font-size:15.5px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <a class="logo" href="#inicio">Tu Negocio</a>
+  <nav aria-label="Principal">
+    <a href="#servicios">Servicios</a><a href="#como">Cómo funciona</a><a href="#contacto">Contacto</a>
+  </nav>
+</div></header>
+
+<main>
+<section class="hero" id="inicio"><div class="wrap">
+  <h1>Tecnología, internet y perfumes en un solo lugar</h1>
+  <p>Reparamos tu celular, tablet o computador, instalamos internet en tu hogar y tenemos perfumería para regalar o para ti. Elige, paga en línea y te atendemos.</p>
+  <a class="btn" href="#servicios">Ver servicios y precios</a><a class="btn ghost" href="#contacto">Hablar con nosotros</a>
+  <div class="chips"><span class="chip">Diagnóstico claro</span><span class="chip">Pago seguro en línea</span><span class="chip">Atención por WhatsApp</span></div>
+</div></section>
+
+<section id="servicios"><div class="wrap">
+  <h2>Servicios y productos</h2>
+  <p class="lead">Filtra por categoría y pulsa el botón de la tarjeta para pagar o solicitar.</p>
+  <div class="tabs" role="group" aria-label="Filtrar por categoría">
+    <button class="tab" data-f="all" aria-pressed="true">Todo</button>
+    <button class="tab" data-f="tech" aria-pressed="false">Servicio técnico</button>
+    <button class="tab" data-f="net" aria-pressed="false">Internet</button>
+    <button class="tab" data-f="perf" aria-pressed="false">Perfumería</button>
+  </div>
+  <div class="pay">
+    <div><b>¿Ya tienes internet con nosotros?</b><span>Paga tu mensualidad en línea en pocos pasos.</span></div>
+    <button class="btn pri" id="payNet" type="button">Paga aquí tu internet</button>
+  </div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section id="como" style="background:var(--surface)"><div class="wrap">
+  <h2>Así de fácil</h2>
+  <p class="lead">Tres pasos, sin vueltas.</p>
+  <ol class="steps">
+    <li><b>Elige</b>Selecciona el servicio o producto que necesitas.</li>
+    <li><b>Paga en línea</b>Te llevamos a nuestra pasarela de pago segura.</li>
+    <li><b>Te atendemos</b>Coordinamos contigo por WhatsApp la visita, el envío o la instalación.</li>
+  </ol>
+</div></section>
+
+<section class="contact" id="contacto"><div class="wrap">
+  <h2>Contacto</h2>
+  <p class="lead">¿No encuentras lo que buscas? Escríbenos y te cotizamos.</p>
+  <div class="cbox">
+    <a class="btn" id="waBtn" href="#" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+    <a class="btn ghost" id="telBtn" href="#">Llamar</a>
+  </div>
+</div></section>
+</main>
+
+<footer>© <span id="yr"></span> Tu Negocio. Todos los derechos reservados.</footer>
+<a class="wa" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">WhatsApp</a>
+
+<dialog id="dlg"><div class="m">
+  <h3>Confirmar pedido</h3>
+  <div class="row"><span id="dName"></span><b id="dPrice"></b></div>
+  <div><label for="cn">Tu nombre</label><input id="cn" autocomplete="name"></div>
+  <div><label for="cp">Tu celular</label><input id="cp" inputmode="tel" autocomplete="tel"></div>
+  <a class="btn pri" id="payBtn" href="#" target="_blank" rel="noopener">Continuar al pago</a>
+  <button class="btn ghost" id="cancel" type="button" style="margin:0">Cancelar</button>
+  <p class="small">Se abrirá la pasarela de pago en una nueva pestaña.</p>
+</div></dialog>
+
+<dialog id="dlgNet"><div class="m">
+  <h3>Paga tu internet</h3>
+  <div><label for="ced">Número de cédula</label><input id="ced" inputmode="numeric" autocomplete="off" maxlength="15"><p class="small">Escríbela sin puntos ni espacios.</p></div>
+  <div id="nList"></div>
+  <p id="nMsg" class="small" role="status"></p>
+  <button class="btn pri" id="nGo" type="button">Consultar mi factura</button>
+  <button class="btn ghost" id="nClose" type="button" style="margin:0">Cerrar</button>
+</div></dialog>
+
+<script>
+/* ====== CONFIGURA AQUÍ ====== */
+var CONFIG = {
+  PAYMENT_URL: "https://TU-PASARELA.com/pago", // enlace de tu pasarela de pago
+  WHATSAPP: "570000000000",                    // número con código de país, sin + ni espacios
+  PHONE: "+570000000000",
+  API_URL: "/.netlify/functions/consulta", // no cambiar
+  USE_ZOHO_LINK: false // true = usar el enlace de pago de la factura en Zoho
+};
+var ITEMS = [
+  {c:"tech",n:"Reparación de celulares",d:"Pantalla, batería, puerto de carga y software.",p:"Desde $50.000"},
+  {c:"tech",n:"Reparación de tablets",d:"Diagnóstico y reparación de pantalla, batería y sistema.",p:"Desde $60.000"},
+  {c:"tech",n:"Mantenimiento de computadores",d:"Limpieza, formateo, instalación de programas y mejora de velocidad.",p:"Desde $70.000"},
+  {c:"tech",n:"Diagnóstico técnico",d:"Revisamos tu equipo y te decimos qué tiene y cuánto cuesta.",p:"$20.000"},
+  {c:"net",n:"Internet para el hogar",d:"Instalación y plan mensual con soporte.",p:"Desde $60.000/mes"},
+  {c:"net",n:"Internet para negocios",d:"Conexión estable para tu local u oficina.",p:"Desde $90.000/mes"},
+  {c:"perf",n:"Perfumes para ella",d:"Fragancias florales, frutales y dulces.",p:"Desde $80.000"},
+  {c:"perf",n:"Perfumes para él",d:"Fragancias frescas, amaderadas y cítricas.",p:"Desde $80.000"},
+  {c:"perf",n:"Sets de regalo",d:"Perfume con presentación lista para regalar.",p:"Desde $120.000"}
+];
+var grid=document.getElementById("grid"),dlg=document.getElementById("dlg"),cur=null;
+function render(f){
+  grid.innerHTML="";
+  ITEMS.forEach(function(it,i){
+    if(f!=="all"&&it.c!==f)return;
+    var a=document.createElement("article");a.className="card";a.dataset.cat=it.c;
+    a.innerHTML='<h3></h3><p></p><div class="price"></div><button class="btn" type="button"></button>';
+    a.querySelector("h3").textContent=it.n;a.querySelector("p").textContent=it.d;
+    a.querySelector(".price").textContent=it.p;
+    var b=a.querySelector("button");b.textContent=it.c==="net"?"Solicitar":"Pagar ahora";
+    b.onclick=function(){open_(it)};grid.appendChild(a);
+  });
+}
+function open_(it){
+  cur=it;document.getElementById("dName").textContent=it.n;
+  document.getElementById("dPrice").textContent=it.p;dlg.showModal();
+}
+document.getElementById("cancel").onclick=function(){dlg.close()};
+var dN=document.getElementById("dlgNet"),nList=document.getElementById("nList"),nMsg=document.getElementById("nMsg"),nGo=document.getElementById("nGo");
+document.getElementById("payNet").onclick=function(){nList.innerHTML="";nMsg.textContent="";document.getElementById("ced").value="";dN.showModal()};
+document.getElementById("nClose").onclick=function(){dN.close()};
+function money(v,c){try{return Number(v).toLocaleString("es-CO",{style:"currency",currency:c||"COP",maximumFractionDigits:0})}catch(e){return "$"+v}}
+function consultar(){
+  var ced=document.getElementById("ced").value.replace(/\D/g,"");
+  nList.innerHTML="";
+  if(ced.length<5||ced.length>15){nMsg.textContent="Escribe tu cédula con solo números.";return}
+  nMsg.textContent="Consultando…";nGo.disabled=true;
+  fetch(CONFIG.API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({cedula:ced})})
+  .then(function(r){return r.json()})
+  .then(function(d){
+    nGo.disabled=false;
+    if(!d.ok){nMsg.textContent=d.mensaje||"No pudimos consultar. Intenta de nuevo.";return}
+    nMsg.textContent="Hola, "+d.nombre+". Estas son tus facturas pendientes:";
+    d.facturas.forEach(function(f){
+      var row=document.createElement("div");row.className="row";row.style.alignItems="center";
+      var t=document.createElement("div");
+      var b=document.createElement("b");b.textContent=money(f.valor,f.moneda);
+      var sp=document.createElement("div");sp.className="small";sp.textContent="Factura "+f.numero+(f.vence?" · vence "+f.vence:"");
+      t.appendChild(b);t.appendChild(sp);
+      var a=document.createElement("a");a.className="btn pri";a.textContent="Pagar";a.target="_blank";a.rel="noopener";
+      a.href=(CONFIG.USE_ZOHO_LINK&&f.url)?f.url:CONFIG.PAYMENT_URL+"?factura="+encodeURIComponent(f.numero)+"&valor="+encodeURIComponent(f.valor);
+      row.appendChild(t);row.appendChild(a);nList.appendChild(row);
+    });
+  })
+  .catch(function(){nGo.disabled=false;nMsg.textContent="No pudimos consultar en este momento. Escríbenos por WhatsApp."});
+}
+nGo.onclick=consultar;
+document.getElementById("ced").addEventListener("keydown",function(e){if(e.key==="Enter")consultar()});
+document.getElementById("payBtn").addEventListener("click",function(e){
+  var n=document.getElementById("cn").value.trim(),p=document.getElementById("cp").value.trim();
+  if(!n||!p){e.preventDefault();alert("Escribe tu nombre y celular para continuar.");return}
+  var q="?servicio="+encodeURIComponent(cur.n)+"&nombre="+encodeURIComponent(n)+"&celular="+encodeURIComponent(p);
+  this.href=CONFIG.PAYMENT_URL+q;
+  setTimeout(function(){dlg.close()},300);
+});
+document.querySelectorAll(".tab").forEach(function(t){
+  t.onclick=function(){
+    document.querySelectorAll(".tab").forEach(function(x){x.setAttribute("aria-pressed","false")});
+    t.setAttribute("aria-pressed","true");render(t.dataset.f);
+  };
+});
+var wa="https://wa.me/"+CONFIG.WHATSAPP+"?text="+encodeURIComponent("Hola, quiero más información.");
+["waBtn","waFloat"].forEach(function(id){document.getElementById(id).href=wa});
+document.getElementById("telBtn").href="tel:"+CONFIG.PHONE;
+document.getElementById("yr").textContent=new Date().getFullYear();
+render("all");
+</script>
+</body>
+</html>
