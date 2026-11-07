@@ -36,7 +36,28 @@ const limpiar = (v) => String(v == null ? "" : v).replace(/[.\s-]/g, "");
 function coincide(c, cedula) {
   const valores = [c.contact_name, c.company_name, c.notes];
   (c.custom_fields || []).forEach((f) => valores.push(f.value));
+  Object.keys(c.custom_field_hash || {}).forEach((k) => valores.push(c.custom_field_hash[k]));
+  Object.keys(c).forEach((k) => { if (k.indexOf("cf_") === 0) valores.push(c[k]); });
   return valores.some((v) => limpiar(v) === cedula);
+}
+
+async function buscarCliente(cedula) {
+  // 1) Búsqueda directa
+  const lista = await zoho("/contacts", { search_text: cedula });
+  for (const c of (lista.contacts || []).slice(0, 5)) {
+    if (coincide(c, cedula)) return c;
+    const d = await zoho(`/contacts/${c.contact_id}`);
+    if (d.contact && coincide(d.contact, cedula)) return d.contact;
+  }
+  // 2) Recorrer los clientes por páginas (hasta 600)
+  for (let page = 1; page <= 3; page++) {
+    const r = await zoho("/contacts", { page: String(page), per_page: "200" });
+    const cs = r.contacts || [];
+    const hit = cs.find((c) => coincide(c, cedula));
+    if (hit) return hit;
+    if (cs.length < 200) break;
+  }
+  return null;
 }
 
 function enmascarar(nombre) {
@@ -66,13 +87,7 @@ exports.handler = async (event) => {
     };
 
     // 1) Buscar al cliente
-    const lista = await zoho("/contacts", { search_text: cedula });
-    const candidatos = (lista.contacts || []).slice(0, 5);
-    let cliente = null;
-    for (const c of candidatos) {
-      const d = await zoho(`/contacts/${c.contact_id}`);
-      if (d.contact && coincide(d.contact, cedula)) { cliente = d.contact; break; }
-    }
+    const cliente = await buscarCliente(cedula);
     if (!cliente) return json(200, noEncontrado);
 
     // 2) Traer sus facturas pendientes
