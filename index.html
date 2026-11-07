@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tu Negocio – Soporte técnico, internet y perfumería</title>
+<title>Grupo Dysan – Soporte técnico, internet y perfumería</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
@@ -21,7 +21,8 @@ a{color:inherit}
 :focus-visible{outline:3px solid var(--net);outline-offset:2px}
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--hero);color:var(--hero-ink)}
 .bar{max-width:1040px;margin:auto;display:flex;align-items:center;gap:16px;padding:12px 20px}
-.logo{font-family:Sora,sans-serif;font-weight:800;text-decoration:none;white-space:nowrap}
+.logo{display:block;background:#fff;border-radius:10px;padding:4px 12px;flex:none}
+.logo img{display:block;height:42px;width:auto}
 nav{display:flex;gap:4px;overflow-x:auto;margin-left:auto;scrollbar-width:none}
 nav a{padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;white-space:nowrap;color:#c8d0de}
 nav a:hover{background:rgba(255,255,255,.1);color:#fff}
@@ -55,7 +56,7 @@ section h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:700;margin-bottom:8px}
 .contact .lead{color:#c8d0de}
 .cbox{display:flex;flex-wrap:wrap;gap:12px}
 footer{padding:24px 20px;text-align:center;color:var(--muted);font-size:14px}
-.wa{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:25;background:#1fa855;color:#fff;text-decoration:none;font-weight:600;padding:13px 18px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.wa{position:fixed;right:16px;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:25;background:#1fa855;color:#fff;text-decoration:none;font-weight:600;padding:13px 18px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.3)}
 dialog{border:0;border-radius:16px;padding:0;width:min(440px,92vw);background:var(--surface);color:var(--ink)}
 dialog::backdrop{background:rgba(5,10,20,.6)}
 .m{padding:24px;display:flex;flex-direction:column;gap:14px}
@@ -68,12 +69,28 @@ dialog::backdrop{background:rgba(5,10,20,.6)}
 .pay{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--net);border-radius:12px;padding:16px 20px;margin-bottom:24px}
 .pay b{font-family:Sora,sans-serif;display:block}
 .pay span{color:var(--muted);font-size:15.5px}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.ico{width:46px;height:46px}
+.ico svg{width:100%;height:100%;fill:none;stroke:var(--c);stroke-width:3;stroke-linecap:round}
+.ico .dot,.ico .mist,.ico .tw{fill:var(--c);stroke:none}
+.w1,.w2,.w3{opacity:.2;animation:wf 1.8s ease-in-out infinite}
+.w2{animation-delay:.3s}.w3{animation-delay:.6s}
+@keyframes wf{0%,100%{opacity:.2}50%{opacity:1}}
+.needle{transform-origin:20px 30px;animation:sw 2.4s ease-in-out infinite alternate}
+@keyframes sw{from{transform:rotate(-55deg)}to{transform:rotate(55deg)}}
+.mist{opacity:0;animation:ms 1.8s ease-out infinite}
+.mist:nth-of-type(2){animation-delay:.3s}.mist:nth-of-type(3){animation-delay:.6s}
+@keyframes ms{0%{opacity:0;transform:translateX(5px)}40%{opacity:1}100%{opacity:0;transform:translateX(-6px)}}
+.tw{transform-box:fill-box;transform-origin:center;animation:tw 2s ease-in-out infinite}
+.tw.b{animation-delay:.8s}
+@keyframes tw{0%,100%{transform:scale(.4);opacity:.3}50%{transform:scale(1);opacity:1}}
+.bounce{animation:bn 1.4s ease-in-out infinite alternate}
+@keyframes bn{from{transform:translateY(0)}to{transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.w1,.w2,.w3{animation:none;opacity:1}.needle,.tw,.bounce{animation:none}.mist{animation:none;opacity:1}}
 </style>
 </head>
 <body>
 <header><div class="bar">
-  <a class="logo" href="#inicio">Tu Negocio</a>
+  <a class="logo" href="#inicio" aria-label="Grupo Dysan, inicio"><img src="logo_GD_sin_fondo.png" alt="Grupo Dysan, nacemos para ti"></a>
   <nav aria-label="Principal">
     <a href="#servicios">Servicios</a><a href="#como">Cómo funciona</a><a href="#contacto">Contacto</a>
   </nav>
@@ -98,7 +115,7 @@ dialog::backdrop{background:rgba(5,10,20,.6)}
   </div>
   <div class="pay">
     <div><b>¿Ya tienes internet con nosotros?</b><span>Paga tu mensualidad en línea en pocos pasos.</span></div>
-    <button class="btn pri" id="payNet" type="button">Paga aquí tu internet</button>
+    <button class="btn pri" id="payNet" type="button">Paga tu factura aquí</button>
   </div>
   <div class="grid" id="grid"></div>
 </div></section>
@@ -107,9 +124,9 @@ dialog::backdrop{background:rgba(5,10,20,.6)}
   <h2>Así de fácil</h2>
   <p class="lead">Tres pasos, sin vueltas.</p>
   <ol class="steps">
-    <li><b>Elige</b>Selecciona el servicio o producto que necesitas.</li>
-    <li><b>Paga en línea</b>Te llevamos a nuestra pasarela de pago segura.</li>
-    <li><b>Te atendemos</b>Coordinamos contigo por WhatsApp la visita, el envío o la instalación.</li>
+    <li><b>Elige</b>El servicio o producto que necesitas.</li>
+    <li><b>Contáctanos</b>Nuestra área comercial te brindará atención personalizada.</li>
+    <li><b>Paga en línea</b>Te llevamos a nuestra pasarela de pagos segura y confiable.</li>
   </ol>
 </div></section>
 
@@ -123,7 +140,7 @@ dialog::backdrop{background:rgba(5,10,20,.6)}
 </div></section>
 </main>
 
-<footer>© <span id="yr"></span> Tu Negocio. Todos los derechos reservados.</footer>
+<footer>© <span id="yr"></span> GRUPO DYSAN. Todos los derechos reservados.</footer>
 <a class="wa" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">WhatsApp</a>
 
 <dialog id="dlg"><div class="m">
@@ -137,7 +154,7 @@ dialog::backdrop{background:rgba(5,10,20,.6)}
 </div></dialog>
 
 <dialog id="dlgNet"><div class="m">
-  <h3>Paga tu internet</h3>
+  <h3>Paga tu factura</h3>
   <div><label for="ced">Número de cédula</label><input id="ced" inputmode="numeric" autocomplete="off" maxlength="15"><p class="small">Escríbela sin puntos ni espacios.</p></div>
   <div id="nList"></div>
   <p id="nMsg" class="small" role="status"></p>
@@ -149,8 +166,9 @@ dialog::backdrop{background:rgba(5,10,20,.6)}
 /* ====== CONFIGURA AQUÍ ====== */
 var CONFIG = {
   PAYMENT_URL: "https://TU-PASARELA.com/pago", // enlace de tu pasarela de pago
-  WHATSAPP: "570000000000",                    // número con código de país, sin + ni espacios
-  PHONE: "+570000000000",
+  WHATSAPP: "573022731468",                    // número con código de país, sin + ni espacios
+  PHONE: "+573022731468",
+  FORM_URL: "https://forms.gle/TU-FORMULARIO", // enlace de tu formulario de Google
   API_URL: "/.netlify/functions/consulta", // no cambiar
   USE_ZOHO_LINK: false // true = usar el enlace de pago de la factura en Zoho
 };
@@ -159,23 +177,36 @@ var ITEMS = [
   {c:"tech",n:"Reparación de tablets",d:"Diagnóstico y reparación de pantalla, batería y sistema.",p:"Desde $60.000"},
   {c:"tech",n:"Mantenimiento de computadores",d:"Limpieza, formateo, instalación de programas y mejora de velocidad.",p:"Desde $70.000"},
   {c:"tech",n:"Diagnóstico técnico",d:"Revisamos tu equipo y te decimos qué tiene y cuánto cuesta.",p:"$20.000"},
-  {c:"net",n:"Internet para el hogar",d:"Instalación y plan mensual con soporte.",p:"Desde $60.000/mes"},
-  {c:"net",n:"Internet para negocios",d:"Conexión estable para tu local u oficina.",p:"Desde $90.000/mes"},
-  {c:"perf",n:"Perfumes para ella",d:"Fragancias florales, frutales y dulces.",p:"Desde $80.000"},
-  {c:"perf",n:"Perfumes para él",d:"Fragancias frescas, amaderadas y cítricas.",p:"Desde $80.000"},
-  {c:"perf",n:"Sets de regalo",d:"Perfume con presentación lista para regalar.",p:"Desde $120.000"}
+  {c:"net",n:"Internet para el hogar",d:"Instalación y plan mensual con soporte.",p:"Desde $60.000/mes",a:"form",i:"wifi"},
+  {c:"net",n:"Internet para negocios",d:"Conexión estable para tu local u oficina.",p:"Desde $90.000/mes",a:"form",i:"gauge"},
+  {c:"perf",n:"Perfumes para ella",d:"Fragancias florales, frutales y dulces.",p:"Desde $25.000",i:"spray"},
+  {c:"perf",n:"Perfumes para él",d:"Fragancias frescas, amaderadas y cítricas.",p:"Desde $25.000",i:"sparkle"},
+  {c:"perf",n:"Sets de regalo",d:"Perfume con presentación lista para regalar.",p:"Desde $120.000",i:"gift"}
 ];
+var ICONS={
+  wifi:'<svg viewBox="0 0 40 40" aria-hidden="true"><path class="w3" d="M5 16 A21 21 0 0 1 35 16"/><path class="w2" d="M11 22 A13 13 0 0 1 29 22"/><path class="w1" d="M16 27 A6 6 0 0 1 24 27"/><circle class="dot" cx="20" cy="33" r="2.6"/></svg>',
+  spray:'<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="14" y="18" width="16" height="16" rx="4"/><rect x="19" y="12" width="6" height="6"/><path d="M22 12 V8 H17"/><circle class="mist" cx="12" cy="8" r="1.8"/><circle class="mist" cx="8" cy="12" r="1.8"/><circle class="mist" cx="11" cy="15" r="1.8"/></svg>',
+  sparkle:'<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="11" y="18" width="18" height="16" rx="2"/><rect x="16" y="11" width="8" height="7" rx="1"/><path class="tw" d="M33 4 L34.5 8.5 L39 10 L34.5 11.5 L33 16 L31.5 11.5 L27 10 L31.5 8.5 Z"/><path class="tw b" d="M6 6 L7 9 L10 10 L7 11 L6 14 L5 11 L2 10 L5 9 Z"/></svg>',
+  gift:'<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="22" width="24" height="12" rx="1"/><g class="bounce"><rect x="6" y="16" width="28" height="6" rx="1"/><path d="M20 16 C14 6 8 12 20 16 C32 12 26 6 20 16"/></g><path d="M20 22 V34"/></svg>',
+  gauge:'<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 30 A15 15 0 0 1 35 30"/><line class="needle" x1="20" y1="30" x2="20" y2="15"/><circle class="dot" cx="20" cy="30" r="3"/></svg>'
+};
 var grid=document.getElementById("grid"),dlg=document.getElementById("dlg"),cur=null;
 function render(f){
   grid.innerHTML="";
-  ITEMS.forEach(function(it,i){
+  ITEMS.forEach(function(it){
     if(f!=="all"&&it.c!==f)return;
     var a=document.createElement("article");a.className="card";a.dataset.cat=it.c;
-    a.innerHTML='<h3></h3><p></p><div class="price"></div><button class="btn" type="button"></button>';
+    a.innerHTML=(it.i?'<div class="ico">'+ICONS[it.i]+'</div>':'')+'<h3></h3><p></p><div class="price"></div>';
     a.querySelector("h3").textContent=it.n;a.querySelector("p").textContent=it.d;
     a.querySelector(".price").textContent=it.p;
-    var b=a.querySelector("button");b.textContent=it.c==="net"?"Solicitar":"Pagar ahora";
-    b.onclick=function(){open_(it)};grid.appendChild(a);
+    if(it.a==="pay"){
+      var b=document.createElement("button");b.type="button";b.className="btn";b.textContent="Pagar ahora";
+      b.onclick=function(){open_(it)};a.appendChild(b);
+    }else if(it.a==="form"){
+      var l=document.createElement("a");l.className="btn";l.textContent="Solicitar";
+      l.href=CONFIG.FORM_URL;l.target="_blank";l.rel="noopener";a.appendChild(l);
+    }
+    grid.appendChild(a);
   });
 }
 function open_(it){
