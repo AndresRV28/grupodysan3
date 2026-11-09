@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Grupo Dysan – Soporte técnico, internet y perfumería</title>
+<meta name="description" content="Grupo Dysan: reparación de celulares, tablets y computadores, internet para hogar y negocios y perfumería. Paga tu factura en línea.">
+<meta name="theme-color" content="#0f1b2d">
+<link rel="canonical" href="https://grupodysan.com/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CO">
+<meta property="og:title" content="Grupo Dysan: nacimos para ti">
+<meta property="og:description" content="Soporte técnico, internet y perfumería. Paga tu factura en línea.">
+<meta property="og:url" content="https://grupodysan.com/">
+<meta property="og:image" content="https://grupodysan.com/logo_GD_sin_fondo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
@@ -205,7 +214,7 @@ dialog::backdrop{background:rgba(5,10,20,.6)}
 
 <dialog id="dlgNet"><div class="m">
   <h3>Paga tu factura</h3>
-  <div><label for="ced">Número de cédula</label><input id="ced" inputmode="numeric" autocomplete="off" maxlength="15"><p class="small">Escríbela sin puntos ni espacios.</p></div>
+  <div><label for="ced">Número de cliente</label><input id="ced" autocomplete="off" autocapitalize="characters" maxlength="20"><p class="small">Escríbelo tal como te lo asignamos.</p></div>
   <div id="nList"></div>
   <p id="nMsg" class="small" role="status"></p>
   <button class="btn pri" id="nGo" type="button">Consultar mi factura</button>
@@ -218,7 +227,7 @@ var CONFIG = {
   PAYMENT_URL: "https://TU-PASARELA.com/pago", // enlace de tu pasarela de pago
   WHATSAPP: "573022731468",                    // número con código de país, sin + ni espacios
   PHONE: "+573022731468",
-  FORM_URL: "https://forms.gle/TU-FORMULARIO", // enlace de tu formulario de Google
+  FORM_URL: "https://docs.google.com/forms/d/e/1FAIpQLScAFydlZACriWhNt4VuHbxICdJ1iLbOSBZnbkD9POmXpY2kDQ/viewform?usp=dialog", // enlace de tu formulario de Google
   API_URL: "/.netlify/functions/consulta", // no cambiar
   USE_ZOHO_LINK: false // true = usar el enlace de pago de la factura en Zoho
 };
@@ -273,11 +282,11 @@ document.getElementById("payNet").onclick=function(){nList.innerHTML="";nMsg.tex
 document.getElementById("nClose").onclick=function(){dN.close()};
 function money(v,c){try{return Number(v).toLocaleString("es-CO",{style:"currency",currency:c||"COP",maximumFractionDigits:0})}catch(e){return "$"+v}}
 function consultar(){
-  var ced=document.getElementById("ced").value.replace(/\D/g,"");
+  var ced=document.getElementById("ced").value.trim();
   nList.innerHTML="";
-  if(ced.length<5||ced.length>15){nMsg.textContent="Escribe tu cédula con solo números.";return}
+  if(!/^[A-Za-z0-9-]{3,20}$/.test(ced)){nMsg.textContent="Escribe tu número de cliente, sin espacios.";return}
   nMsg.textContent="Consultando…";nGo.disabled=true;
-  fetch(CONFIG.API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({cedula:ced})})
+  fetch(CONFIG.API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({cliente:ced})})
   .then(function(r){return r.json()})
   .then(function(d){
     nGo.disabled=false;
@@ -298,7 +307,7 @@ function consultar(){
 }
 function pagar(ced,num,btn){
   btn.disabled=true;btn.textContent="Un momento…";
-  fetch("/.netlify/functions/crear-pago",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({cedula:ced,factura:num})})
+  fetch("/.netlify/functions/crear-pago",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({cliente:ced,factura:num})})
   .then(function(r){return r.json()})
   .then(function(d){
     if(d.ok&&d.url){location.href=d.url;return}
