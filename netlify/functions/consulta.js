@@ -1,4 +1,4 @@
-// Consulta facturas pendientes en Zoho Invoice por cédula.
+// Consulta facturas pendientes en Zoho Invoice por número de cliente.
 // Las credenciales se guardan como variables de entorno en Netlify (nunca en la página).
 
 const ACCOUNTS = process.env.ZOHO_ACCOUNTS_URL || "https://accounts.zoho.com";
@@ -31,29 +31,29 @@ async function zoho(path, params = {}) {
   return r.json();
 }
 
-const limpiar = (v) => String(v == null ? "" : v).replace(/[.\s-]/g, "");
+const limpiar = (v) => String(v == null ? "" : v).toUpperCase().replace(/[\s.\-]/g, "");
 
-function coincide(c, cedula) {
+function coincide(c, codigo) {
   const valores = [c.contact_name, c.company_name, c.notes];
   (c.custom_fields || []).forEach((f) => valores.push(f.value));
   Object.keys(c.custom_field_hash || {}).forEach((k) => valores.push(c.custom_field_hash[k]));
   Object.keys(c).forEach((k) => { if (k.indexOf("cf_") === 0) valores.push(c[k]); });
-  return valores.some((v) => limpiar(v) === cedula);
+  return valores.some((v) => limpiar(v) === codigo);
 }
 
-async function buscarCliente(cedula) {
+async function buscarCliente(codigo) {
   // 1) Búsqueda directa
-  const lista = await zoho("/contacts", { search_text: cedula });
+  const lista = await zoho("/contacts", { search_text: codigo });
   for (const c of (lista.contacts || []).slice(0, 5)) {
-    if (coincide(c, cedula)) return c;
+    if (coincide(c, codigo)) return c;
     const d = await zoho(`/contacts/${c.contact_id}`);
-    if (d.contact && coincide(d.contact, cedula)) return d.contact;
+    if (d.contact && coincide(d.contact, codigo)) return d.contact;
   }
   // 2) Recorrer los clientes por páginas (hasta 600)
   for (let page = 1; page <= 3; page++) {
     const r = await zoho("/contacts", { page: String(page), per_page: "200" });
     const cs = r.contacts || [];
-    const hit = cs.find((c) => coincide(c, cedula));
+    const hit = cs.find((c) => coincide(c, codigo));
     if (hit) return hit;
     if (cs.length < 200) break;
   }
@@ -77,17 +77,17 @@ const json = (code, body) => ({
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return json(405, { ok: false, mensaje: "Método no permitido" });
   try {
-    const { cedula: raw } = JSON.parse(event.body || "{}");
-    const cedula = limpiar(raw);
-    if (!/^\d{5,15}$/.test(cedula)) return json(400, { ok: false, mensaje: "Cédula no válida." });
+    const { cliente: raw } = JSON.parse(event.body || "{}");
+    const codigo = limpiar(raw);
+    if (!/^[A-Z0-9]{3,20}$/.test(codigo)) return json(400, { ok: false, mensaje: "Número de cliente no válido." });
 
     const noEncontrado = {
       ok: false,
-      mensaje: "No encontramos facturas con esos datos. Revisa tu cédula o escríbenos por WhatsApp.",
+      mensaje: "No encontramos facturas con esos datos. Revisa tu número de cliente o escríbenos por WhatsApp.",
     };
 
     // 1) Buscar al cliente
-    const cliente = await buscarCliente(cedula);
+    const cliente = await buscarCliente(codigo);
     if (!cliente) return json(200, noEncontrado);
 
     // 2) Traer sus facturas pendientes
