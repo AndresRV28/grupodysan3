@@ -31,29 +31,29 @@ async function zoho(path, params = {}) {
   return r.json();
 }
 
-const limpiar = (v) => String(v == null ? "" : v).replace(/[.\s-]/g, "");
+const limpiar = (v) => String(v == null ? "" : v).toUpperCase().replace(/[\s.\-]/g, "");
 
-function coincide(c, cedula) {
+function coincide(c, codigo) {
   const valores = [c.contact_name, c.company_name, c.notes];
   (c.custom_fields || []).forEach((f) => valores.push(f.value));
   Object.keys(c.custom_field_hash || {}).forEach((k) => valores.push(c.custom_field_hash[k]));
   Object.keys(c).forEach((k) => { if (k.indexOf("cf_") === 0) valores.push(c[k]); });
-  return valores.some((v) => limpiar(v) === cedula);
+  return valores.some((v) => limpiar(v) === codigo);
 }
 
-async function buscarCliente(cedula) {
+async function buscarCliente(codigo) {
   // 1) Búsqueda directa
-  const lista = await zoho("/contacts", { search_text: cedula });
+  const lista = await zoho("/contacts", { search_text: codigo });
   for (const c of (lista.contacts || []).slice(0, 5)) {
-    if (coincide(c, cedula)) return c;
+    if (coincide(c, codigo)) return c;
     const d = await zoho(`/contacts/${c.contact_id}`);
-    if (d.contact && coincide(d.contact, cedula)) return d.contact;
+    if (d.contact && coincide(d.contact, codigo)) return d.contact;
   }
   // 2) Recorrer los clientes por páginas (hasta 600)
   for (let page = 1; page <= 3; page++) {
     const r = await zoho("/contacts", { page: String(page), per_page: "200" });
     const cs = r.contacts || [];
-    const hit = cs.find((c) => coincide(c, cedula));
+    const hit = cs.find((c) => coincide(c, codigo));
     if (hit) return hit;
     if (cs.length < 200) break;
   }
@@ -80,14 +80,14 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return json(405, { ok: false, mensaje: "Método no permitido" });
   try {
     const body = JSON.parse(event.body || "{}");
-    const cedula = limpiar(body.cedula);
+    const codigo = limpiar(body.cliente);
     const numero = String(body.factura || "").trim().slice(0, 50);
-    if (!/^\d{5,15}$/.test(cedula) || !numero) {
+    if (!/^[A-Z0-9]{3,20}$/.test(codigo) || !numero) {
       return json(400, { ok: false, mensaje: "Datos no válidos." });
     }
 
     // El valor SIEMPRE se toma de Zoho, nunca de la página.
-    const cliente = await buscarCliente(cedula);
+    const cliente = await buscarCliente(codigo);
     if (!cliente) return json(200, { ok: false, mensaje: "No encontramos esa factura." });
     const inv = await zoho("/invoices", { customer_id: cliente.contact_id, per_page: "25" });
     const f = (inv.invoices || []).find(
@@ -114,9 +114,9 @@ exports.handler = async (event) => {
         limit_date: limite,
         references: [String(f.invoice_number)],
         result_urls: {
-          approved: `${base}/?pago=aprobado`,
-          rejected: `${base}/?pago=rechazado`,
-          pending: `${base}/?pago=pendiente`,
+          approved: `${base}/gracias.html?pago=aprobado`,
+          rejected: `${base}/gracias.html?pago=rechazado`,
+          pending: `${base}/gracias.html?pago=pendiente`,
         },
       },
       office: Number(process.env.EFIPAY_OFFICE_ID),
