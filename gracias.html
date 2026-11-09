@@ -1,1 +1,97 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Gracias – Grupo Dysan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--hero:#0f1b2d;--card:#fff;--ink:#101828;--muted:#566074;--ok:#1fa855;--wait:#2b4fd8;--warn:#e08a00}
+@media (prefers-color-scheme:dark){:root{--card:#161d29;--ink:#eef1f6;--muted:#9aa5b8;--ok:#3ddc84;--wait:#8aa2ff;--warn:#ffb340}}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--hero);color:var(--ink);font-family:"Source Sans 3",system-ui,sans-serif;font-size:17px;line-height:1.55;display:flex;flex-direction:column;min-height:100%}
+header{padding:14px 20px}
+.logo{display:inline-block;background:#fff;border-radius:10px;padding:4px 12px}
+.logo img{display:block;height:42px;width:auto}
+main{flex:1;display:grid;place-items:center;padding:20px}
+.card{position:relative;background:var(--card);border-radius:20px;padding:36px 28px 32px;max-width:440px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.35);animation:up .6s ease-out both}
+@keyframes up{from{opacity:0;transform:translateY(18px)}}
+.ico{position:relative;width:120px;height:120px;margin:0 auto 18px}
+.ico svg{width:100%;height:100%;overflow:visible}
+h1{font-family:Sora,system-ui,sans-serif;font-size:1.6rem;line-height:1.2;margin:0 0 10px}
+p{margin:0 0 24px;color:var(--muted)}
+.btn{display:inline-block;background:var(--wait);color:#fff;text-decoration:none;font-weight:600;padding:13px 24px;border-radius:10px}
+.link{display:block;margin-top:14px;color:var(--wait);font-weight:600}
+:focus-visible{outline:3px solid var(--wait);outline-offset:2px}
+/* check */
+.halo{fill:var(--ok);opacity:0;transform-box:fill-box;transform-origin:center;animation:halo 2.2s 1.2s ease-out infinite}
+@keyframes halo{0%{transform:scale(.9);opacity:.35}100%{transform:scale(1.5);opacity:0}}
+.ring,.chk{fill:none;stroke:var(--ok);stroke-linecap:round;stroke-linejoin:round}
+.ring{stroke-width:6;stroke-dasharray:327;stroke-dashoffset:327;animation:dr .8s ease-out forwards}
+.chk{stroke-width:9;stroke-dasharray:80;stroke-dashoffset:80;animation:dr .5s .7s ease-out forwards}
+@keyframes dr{to{stroke-dashoffset:0}}
+.cf{position:absolute;left:50%;top:50%;width:8px;height:8px;border-radius:2px;opacity:0;animation:cf 1.2s 1s ease-out forwards}
+@keyframes cf{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--x),var(--y)) rotate(240deg)}}
+/* reloj */
+.clk{fill:none;stroke:var(--wait);stroke-width:6;stroke-linecap:round}
+.hand{transform-origin:60px 60px;animation:sp 3s linear infinite}
+.hand2{transform-origin:60px 60px;animation:sp 36s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* aviso */
+.wrn{fill:none;stroke:var(--warn);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.wd{fill:var(--warn);stroke:none}
+.shake{transform-origin:60px 60px;animation:sk .7s .4s ease-in-out 2}
+@keyframes sk{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+.inf{fill:none;stroke:var(--wait);stroke-width:6;stroke-linecap:round}
+footer{text-align:center;color:#9aa5b8;font-size:14px;padding:14px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}.ring,.chk{stroke-dashoffset:0}.cf,.halo{display:none}}
+</style>
+</head>
+<body>
+<header><a class="logo" href="index.html" aria-label="Grupo Dysan, inicio"><img src="logo_GD_sin_fondo.png" alt="Grupo Dysan, nacemos para ti"></a></header>
+<main>
+  <section class="card" role="status" aria-live="polite">
+    <div class="ico" id="ico"></div>
+    <h1 id="t"></h1>
+    <p id="m"></p>
+    <a class="btn" href="index.html">Volver a la página principal</a>
+    <a class="link" id="b2" href="index.html#servicios" hidden>Intentar de nuevo</a>
+  </section>
+</main>
+<footer>© <span id="yr"></span> GRUPO DYSAN</footer>
+<script>
+var S={
+ aprobado:{t:"¡Gracias por tu pago!",m:"Recibimos tu pago. En unos momentos se verá reflejado en tu factura.",
+  i:'<svg viewBox="0 0 120 120" aria-hidden="true"><circle class="halo" cx="60" cy="60" r="52"/><circle class="ring" cx="60" cy="60" r="52" transform="rotate(-90 60 60)"/><path class="chk" d="M36 62 L54 80 L86 44"/></svg>',c:1},
+ pendiente:{t:"Estamos confirmando tu pago",m:"Tu pago está en proceso. Se verá reflejado en tu factura cuando se apruebe; no necesitas hacer nada más.",
+  i:'<svg viewBox="0 0 120 120" aria-hidden="true"><circle class="clk" cx="60" cy="60" r="52"/><line class="clk hand" x1="60" y1="60" x2="60" y2="24"/><line class="clk hand2" x1="60" y1="60" x2="82" y2="60"/></svg>'},
+ rechazado:{t:"El pago no se completó",m:"Tu pago no fue aprobado. Puedes intentarlo de nuevo o escribirnos por WhatsApp.",
+  i:'<svg viewBox="0 0 120 120" aria-hidden="true"><g class="shake"><path class="wrn" d="M60 14 L110 100 H10 Z"/><line class="wrn" x1="60" y1="46" x2="60" y2="74"/><circle class="wd" cx="60" cy="88" r="4.5"/></g></svg>',r:1},
+ otro:{t:"Gracias por visitarnos",m:"Si acabas de realizar un pago, se verá reflejado en tu factura en breve.",
+  i:'<svg viewBox="0 0 120 120" aria-hidden="true"><circle class="inf" cx="60" cy="60" r="52"/><line class="inf" x1="60" y1="54" x2="60" y2="86"/><circle cx="60" cy="38" r="4.5" fill="var(--wait)"/></svg>'}
+};
+var q=new URLSearchParams(location.search).get("pago");
+var e=S[q]||S.otro;
+document.getElementById("t").textContent=e.t;
+document.getElementById("m").textContent=e.m;
+var ico=document.getElementById("ico");ico.innerHTML=e.i;
+if(e.r)document.getElementById("b2").hidden=false;
+if(e.c){
+  var col=["#1fa855","#ffc21a","#2b4fd8","#14b8c4","#e58fc0"];
+  for(var i=0;i<16;i++){
+    var s=document.createElement("span");s.className="cf";
+    var a=(i/16)*Math.PI*2,d=70+Math.random()*30;
+    s.style.setProperty("--x",Math.round(Math.cos(a)*d)+"px");
+    s.style.setProperty("--y",Math.round(Math.sin(a)*d)+"px");
+    s.style.background=col[i%col.length];
+    ico.appendChild(s);
+  }
+}
+document.getElementById("yr").textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
