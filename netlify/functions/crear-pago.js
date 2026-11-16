@@ -117,6 +117,7 @@ exports.handler = async (event) => {
           approved: `${base}/gracias.html?pago=aprobado`,
           rejected: `${base}/gracias.html?pago=rechazado`,
           pending: `${base}/gracias.html?pago=pendiente`,
+          webhook: `${base}/.netlify/functions/webhook`,
         },
       },
       office: Number(process.env.EFIPAY_OFFICE_ID),
