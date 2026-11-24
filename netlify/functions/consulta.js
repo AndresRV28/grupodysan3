@@ -92,17 +92,32 @@ exports.handler = async (event) => {
 
     // 2) Traer sus facturas pendientes
     const inv = await zoho("/invoices", { customer_id: cliente.contact_id, per_page: "25" });
-    const pendientes = (inv.invoices || [])
+    const base = (inv.invoices || [])
       .filter((f) => Number(f.balance) > 0 && !["paid", "void", "draft"].includes(f.status))
-      .slice(0, 5)
-      .map((f) => ({
-        numero: f.invoice_number,
-        valor: f.balance,
-        vence: f.due_date,
-        estado: f.status,
-        url: f.invoice_url || "",
-        moneda: f.currency_code,
-      }));
+      .slice(0, 5);
+
+    // Enlace para ver la factura: si la lista no lo trae, se pide el detalle (máx. 5 llamadas)
+    const pendientes = await Promise.all(
+      base.map(async (f) => {
+        let url = f.invoice_url || "";
+        if (!url && f.invoice_id) {
+          try {
+            const d = await zoho("/invoices/" + f.invoice_id);
+            url = (d.invoice && d.invoice.invoice_url) || "";
+          } catch (e) {
+            console.error("detalle factura", e);
+          }
+        }
+        return {
+          numero: f.invoice_number,
+          valor: f.balance,
+          vence: f.due_date,
+          estado: f.status,
+          url,
+          moneda: f.currency_code,
+        };
+      })
+    );
 
     if (!pendientes.length) {
       return json(200, { ok: false, mensaje: "No tienes facturas pendientes. ¡Gracias por estar al día!" });
